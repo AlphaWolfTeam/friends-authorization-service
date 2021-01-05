@@ -7,7 +7,7 @@ export const login = Joi.object({
     params: {},
 });
 
-// POST /api/callback/
+// GET /api/callback/
 export const callback = Joi.object({
     body: {},
     query: {

@@ -3,11 +3,10 @@ FROM node:13.12-alpine
 WORKDIR /usr/src/app
 
 COPY ["package.json", "package-lock.json*", "./"]
-RUN npm install --production=false --silent
+RUN npm install --silent
 COPY . .
 
-RUN chmod g+rwx -R /usr/src/app
-
-CMD npm run dev
+RUN npm run build
+CMD npm run start
 
 EXPOSE 8000

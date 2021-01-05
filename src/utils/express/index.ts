@@ -10,12 +10,6 @@ export const wrapMiddleware = (func: (req: Request, res?: Response) => Promise<v
 
 export const wrapValidator = wrapMiddleware;
 
-export const wrapController = (func: (req: Request, res: Response, next?: NextFunction) => Promise<void>) => {
-    return (req: Request, res: Response, next: NextFunction) => {
-        func(req, res, next).catch(next);
-    };
-};
-
 export const wrapAsync = (middlewareFunc: (...args: any) => Promise<any>) => {
     return (req: Request, res: Response, next: NextFunction) => {
         middlewareFunc(req, res, next).catch(next);
