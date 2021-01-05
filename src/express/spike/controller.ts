@@ -43,8 +43,7 @@ response_type=code`;
                 throw new ServiceError(500, error.message);
             }
         });
-        const { accessToken } = dataObject.data;
-
+        const accessToken = dataObject.data.access_token;
         res.cookie('friends-token', accessToken);
         res.redirect(config.friends.url);
     }
