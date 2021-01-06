@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node --async-stack-traces ./dist/index.js",
     "dev": "set LOAD_DEV_DOTENV=true&& ts-node-dev ./src/index.ts",
-    "build": "tsc",
+    "build": "npm run lint && tsc",
     "build:watch": "tsc --watch",
     "lint": "eslint . --ext .ts",
     "lint:fix": "eslint . --ext .ts --fix",
