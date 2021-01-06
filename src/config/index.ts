@@ -7,8 +7,6 @@ const config = {
     },
     server: {
         port: env.get('SERVER_PORT').required().asPortNumber(),
-        sslPrivateKeyPath: env.get('SERVER_SSL_PRIVATE_KEY').required().asString(),
-        sslCertificatePath: env.get('SERVER_SSL_CERTIFICATE').required().asString(),
     },
     spike: {
         clientId: env.get('SPIKE_CLIENT_ID').required().asString(),

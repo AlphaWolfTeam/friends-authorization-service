@@ -9,8 +9,6 @@ services:
     environment:
       SERVER_PORT: ${SERVER_PORT}
       FRIENDS_BASE_URL: ${FRIENDS_BASE_URL}
-      SERVER_SSL_PRIVATE_KEY: ${SERVER_SSL_PRIVATE_KEY}
-      SERVER_SSL_CERTIFICATE: ${SERVER_SSL_CERTIFICATE}
       SPIKE_CLIENT_ID: ${SPIKE_CLIENT_ID}
       SPIKE_CLIENT_SECRET: ${SPIKE_CLIENT_SECRET}
       SPIKE_TOKEN_URL: ${SPIKE_TOKEN_URL}
@@ -26,9 +24,9 @@ services:
     image: nginx:alpine
     container_name: nginx-proxy
     ports:
-      - '80:80'
+      - '3443:3443'
     volumes:
-      - ./default.conf:/etc/nginx/nginx.conf
+      - ./nginx:/etc/nginx/conf.d
     depends_on:
       - friends-auth-service
     networks:

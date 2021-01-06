@@ -1,31 +1,22 @@
-import * as https from 'https';
+import * as http from 'http';
 import * as express from 'express';
-import * as fs from 'fs';
 import * as bodyParser from 'body-parser';
 import * as helmet from 'helmet';
 import * as logger from 'morgan';
-
 import { once } from 'events';
 import { errorMiddleware } from './error';
 import appRouter from './router';
-import config from '../config';
 
 class Server {
     private app: express.Application;
 
-    private https: https.Server;
+    private http: http.Server;
 
     private port: number;
-
-    private privateKey: Buffer;
-
-    private certificate: Buffer;
 
     constructor(port: number) {
         this.app = Server.createExpressApp();
         this.port = port;
-        this.privateKey = fs.readFileSync(config.server.sslPrivateKeyPath);
-        this.certificate = fs.readFileSync(config.server.sslCertificatePath);
     }
 
     static createExpressApp() {
@@ -44,8 +35,8 @@ class Server {
     }
 
     async start() {
-        this.https = https.createServer({ key: this.privateKey, cert: this.certificate }, this.app).listen(this.port);
-        await once(this.https, 'listening');
+        this.http = http.createServer(this.app).listen(this.port);
+        await once(this.http, 'listening');
     }
 }
 
