@@ -17,21 +17,13 @@ services:
       SPIKE_FRIENDS_SCOPE: ${SPIKE_FRIENDS_SCOPE}
       SPIKE_REDIRECT_URI: ${SPIKE_REDIRECT_URI}
       SPIKE_GRANT_TYPE: ${SPIKE_GRANT_TYPE}
-    networks:
-      - app-network
 
   nginx-proxy:
     image: nginx:alpine
     container_name: nginx-proxy
     ports:
-      - '3443:3443'
+      - ${NGINX_PORT}:${NGINX_PORT}
     volumes:
       - ./nginx:/etc/nginx/conf.d
     depends_on:
       - friends-auth-service
-    networks:
-      - app-network
-
-networks:
-  app-network:
-    name: app-network

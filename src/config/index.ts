@@ -17,6 +17,7 @@ const config = {
         friendsScope: env.get('SPIKE_FRIENDS_SCOPE').required().asString(),
         redirectUri: env.get('SPIKE_REDIRECT_URI').required().asString(),
         grantType: env.get('SPIKE_GRANT_TYPE').required().asString(),
+        responseType: env.get('RESPONSE_TYPE').default('code').required().asString(),
     },
 };
 

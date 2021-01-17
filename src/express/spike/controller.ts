@@ -6,14 +6,23 @@ import { ServiceError } from '../error';
 
 class SpikeController {
     static async redirectUser(_req: Request, res: Response) {
-        const redirectUrl = `${config.spike.redirectUrl}?\
-client_id=${config.spike.clientId}&\
-audience=${config.spike.friendsAPIAudienceId}&\
-scope=${encodeURI(config.spike.friendsScope)}&\
-redirect_uri=${config.spike.redirectUri}&\
-response_type=code`;
+        const redirectUrl = SpikeController.getRedirectUrl();
         res.redirect(redirectUrl);
     }
+
+    private static getRedirectUrl = () => {
+        const params = {
+            client_id: config.spike.clientId,
+            audience: config.spike.friendsAPIAudienceId,
+            scope: config.spike.friendsScope,
+            redirect_uri: config.spike.redirectUri,
+            response_type: config.spike.responseType,
+        };
+        const paramsToUrl = Object.keys(params)
+            .map((key) => `${key}=${params[key]}`)
+            .join('&');
+        return `${config.spike.redirectUrl}?${paramsToUrl}`;
+    };
 
     private static getTokenRequestBody = (code) => {
         const body = {
@@ -24,14 +33,15 @@ response_type=code`;
         return body;
     };
 
-    static async saveToken(req: Request, res: Response) {
+    static async redirectWithToken(req: Request, res: Response) {
         const body = SpikeController.getTokenRequestBody(String(req.query.code));
         const authHeader = {
             username: config.spike.clientId,
             password: config.spike.clientSecret,
         };
+
         const agent = new https.Agent({
-            rejectUnauthorized: false,
+            rejectUnauthorized: false, // used to ignore the verification of the server that's sending requests to us
         });
 
         const dataObject = await axios.post(config.spike.tokenUrl, body, { auth: authHeader, httpsAgent: agent }).catch((error: AxiosError) => {

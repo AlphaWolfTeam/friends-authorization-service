@@ -7,8 +7,6 @@ dist/
 # jest coverage static server
 coverage/
 
-# Dot Env Configuration
-.env
 
 # Package lock
 package-lock.json
