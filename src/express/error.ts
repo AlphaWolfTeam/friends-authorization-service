@@ -23,7 +23,6 @@ export const errorMiddleware = (error: Error, _req: express.Request, res: expres
     } else {
         res.status(500).send({
             type: error.name,
-            message: error.message,
         });
     }
 
