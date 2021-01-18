@@ -18,7 +18,6 @@ const config = {
         redirectUri: env.get('SPIKE_REDIRECT_URI').required().asString(),
         grantType: env.get('SPIKE_GRANT_TYPE').required().asString(),
         responseType: env.get('RESPONSE_TYPE').default('code').required().asString(),
-        rejectUnauthorized: env.get('NODE_TLS_REJECT_UNAUTHORIZED').required().asString(),
         jwtCookieName: env.get('JWT_COOKIE_NAME').default('friends-token').required().asString(),
         isAliveCode: env.get('IS_ALIVE_CODE').default(200).required().asInt(),
         isAliveMessage: env.get('IS_ALIVE_MESSAGE').default('alive').required().asString(),
