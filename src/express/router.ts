@@ -1,12 +1,13 @@
 import { Router } from 'express';
 import spikeRouter from './spike/router';
+import config from '../config/index';
 
 const appRouter = Router();
 
-appRouter.use('/api', spikeRouter);
+appRouter.use('/auth', spikeRouter);
 
 appRouter.use('/isAlive', (_req, res) => {
-    res.status(200).send('alive');
+    res.status(config.spike.isAliveCode).send(config.spike.isAliveMessage);
 });
 
 appRouter.use('*', (_req, res) => {

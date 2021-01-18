@@ -1,6 +1,5 @@
 import { Request, Response } from 'express';
 import axios, { AxiosError } from 'axios';
-import * as https from 'https';
 import config from '../../config';
 import { ServiceError } from '../error';
 
@@ -40,11 +39,7 @@ class SpikeController {
             password: config.spike.clientSecret,
         };
 
-        const agent = new https.Agent({
-            rejectUnauthorized: false, // used to ignore the verification of the server that's sending requests to us
-        });
-
-        const dataObject = await axios.post(config.spike.tokenUrl, body, { auth: authHeader, httpsAgent: agent }).catch((error: AxiosError) => {
+        const dataObject = await axios.post(config.spike.tokenUrl, body, { auth: authHeader }).catch((error: AxiosError) => {
             if (error.response) {
                 throw new ServiceError(error.response.status, JSON.stringify(error.response.data));
             } else if (error.request) {
@@ -54,7 +49,7 @@ class SpikeController {
             }
         });
         const accessToken = dataObject.data.access_token;
-        res.cookie('friends-token', accessToken);
+        res.cookie(config.spike.jwtCookieName, accessToken);
         res.redirect(config.friends.url);
     }
 }
