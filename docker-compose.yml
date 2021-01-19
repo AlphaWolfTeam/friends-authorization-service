@@ -1,0 +1,30 @@
+version: '3.5'
+
+services:
+  friends-auth-service:
+    build: .
+    container_name: friends-auth-service
+    ports:
+      - ${SERVER_PORT}:${SERVER_PORT}
+    environment:
+      SERVER_PORT: ${SERVER_PORT}
+      FRIENDS_BASE_URL: ${FRIENDS_BASE_URL}
+      SPIKE_CLIENT_ID: ${SPIKE_CLIENT_ID}
+      SPIKE_CLIENT_SECRET: ${SPIKE_CLIENT_SECRET}
+      SPIKE_TOKEN_URL: ${SPIKE_TOKEN_URL}
+      SPIKE_REDIRECT_TOKEN_URL: ${SPIKE_REDIRECT_TOKEN_URL}
+      FRIENDS_API_AUDIENCE_ID: ${FRIENDS_API_AUDIENCE_ID}
+      SPIKE_FRIENDS_SCOPE: ${SPIKE_FRIENDS_SCOPE}
+      SPIKE_REDIRECT_URI: ${SPIKE_REDIRECT_URI}
+      SPIKE_GRANT_TYPE: ${SPIKE_GRANT_TYPE}
+      NODE_TLS_REJECT_UNAUTHORIZED: ${NODE_TLS_REJECT_UNAUTHORIZED}
+
+  nginx-proxy:
+    image: nginx:alpine
+    container_name: nginx-proxy
+    ports:
+      - ${NGINX_PORT}:${NGINX_PORT}
+    volumes:
+      - ./nginx:/etc/nginx/conf.d
+    depends_on:
+      - friends-auth-service
