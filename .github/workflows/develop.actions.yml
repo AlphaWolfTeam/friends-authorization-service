@@ -2,10 +2,12 @@ name: CI to Docker Hub
 
 on:
   push:
-    branches: [ main ]
+    branches: [ develop ]
+
+  workflow_dispatch:
 
 jobs:
-  build:
+  build-and-push:
     runs-on: ubuntu-latest
 
     steps:
@@ -29,4 +31,4 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: alphawolfsforce/friends-authorization-service:latest
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/${{ github.event.repository.name }}:develop
