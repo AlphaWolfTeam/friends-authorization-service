@@ -3,6 +3,7 @@ import * as express from 'express';
 import * as bodyParser from 'body-parser';
 import * as helmet from 'helmet';
 import * as logger from 'morgan';
+import * as cookieParser from 'cookie-parser';
 import { once } from 'events';
 import { errorMiddleware } from './error';
 import appRouter from './router';
@@ -25,7 +26,7 @@ class Server {
         app.use(helmet());
         app.use(bodyParser.json());
         app.use(bodyParser.urlencoded({ extended: true }));
-
+        app.use(cookieParser());
         app.use(logger('dev'));
         app.use(appRouter);
 
