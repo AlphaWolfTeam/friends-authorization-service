@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import axios, { AxiosError } from 'axios';
+import * as jwt from 'jsonwebtoken';
 import config from '../../config';
 import { ServiceError } from '../error';
 
@@ -49,7 +50,9 @@ class SpikeController {
             }
         });
         const accessToken = dataObject.data.access_token;
-        res.cookie(config.spike.jwtCookieName, accessToken);
+        const decodedToken = jwt.decode(accessToken);
+        const tokenMaxAgeInMilliseconds = (decodedToken.exp - decodedToken.iat) * 1000;
+        res.cookie(config.spike.jwtCookieName, accessToken, { maxAge: tokenMaxAgeInMilliseconds });
         res.redirect(config.friends.url);
     }
 }
